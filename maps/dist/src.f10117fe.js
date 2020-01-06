@@ -85107,7 +85107,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var faker_1 = __importDefault(require("faker"));
+var faker_1 = __importDefault(require("faker")); //implements will show error on what exactly is missing when you have an error
+
 
 var User =
 /** @class */
@@ -85118,14 +85119,19 @@ function () {
       lat: parseFloat(faker_1.default.address.latitude()),
       lng: parseFloat(faker_1.default.address.longitude())
     };
-  }
+  } //markContent is a function that will return a string
+
+
+  User.prototype.markerContent = function () {
+    return "User Name: " + this.name;
+  };
 
   return User;
 }();
 
 exports.User = User;
 },{"faker":"node_modules/faker/index.js"}],"src/Company.ts":[function(require,module,exports) {
-"use strict";
+"use strict"; //IMPORTANT! once you install the @type file for the faker or google map then you can use cmd button to click on the method you can call from faker or google map VERY USEFUL
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -85151,6 +85157,10 @@ function () {
     };
   }
 
+  Company.prototype.markerContent = function () {
+    return "\n      <div>\n        <h1>Company Name: " + this.companyName + "</h1>\n        <h3>Catchphrase: " + this.catchPhrase + "</h3>\n      </div>\n      ";
+  };
+
   return Company;
 }();
 
@@ -85160,7 +85170,7 @@ exports.Company = Company;
 
 Object.defineProperty(exports, "__esModule", {
   value: true
-});
+}); //remember when you declare something in typescript it's not defined yet, you still need to give define the values
 
 var CustomMap =
 /** @class */
@@ -85195,15 +85205,25 @@ function () {
   }
   */
   //using this method as long as the arugument fits interface mappable you can use it
+  //here is an example of using the interface to restrict argument going into the function
 
 
   CustomMap.prototype.addMarker = function (mappable) {
-    new google.maps.Marker({
+    var _this = this;
+
+    var marker = new google.maps.Marker({
       map: this.googleMap,
       position: {
         lat: mappable.location.lat,
         lng: mappable.location.lng
       }
+    });
+    marker.addListener('click', function () {
+      //spent much time figuring out why InfoWindow didn't work and found out that calling InfoWindow isn't the camel case from usual javascript convention, an easy remedy if I cmd and go to maps to check out it's api. 
+      var infoWindow = new google.maps.InfoWindow({
+        content: mappable.markerContent()
+      });
+      infoWindow.open(_this.googleMap, marker);
     });
   };
 
@@ -85258,7 +85278,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49410" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49777" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

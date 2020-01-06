@@ -1,9 +1,14 @@
-interface Mappable {
+//if you need to use goole map again and need help docs html is next line
+//https://developers.google.com/maps/documentation/javascript/tutorial  
+export interface Mappable {
   location: {
     lat: number;
     lng: number;
   };
+  markerContent(): string;
 }
+
+//remember when you declare something in typescript it's not defined yet, you still need to give define the values
 
 export class CustomMap {
   private googleMap: google.maps.Map;
@@ -41,14 +46,25 @@ export class CustomMap {
   */
 
   //using this method as long as the arugument fits interface mappable you can use it
+  //here is an example of using the interface to restrict argument going into the function
 
   addMarker(mappable: Mappable): void {
-    new google.maps.Marker({
+    const marker = new google.maps.Marker({
       map: this.googleMap,
       position: {
         lat: mappable.location.lat,
         lng: mappable.location.lng
       }
+    });
+
+    marker.addListener('click', () => {
+
+    //spent much time figuring out why InfoWindow didn't work and found out that calling InfoWindow isn't the camel case from usual javascript convention, an easy remedy if I cmd and go to maps to check out it's api. 
+      const infoWindow = new google.maps.InfoWindow({
+        content: mappable.markerContent();
+      });
+
+      infoWindow.open(this.googleMap, marker);
     });
   }
 }
