@@ -24,6 +24,8 @@ export class CustomMap {
   }
 
   /* bad implementaion
+  it's bad because you are just repating yourself, with interface mappable you can instead make addMarker function universal as long as the argument fits into the addMarker function
+  
   addUserMarker(user: User): void {
     new google.maps.Marker({
       map: this.googleMap,

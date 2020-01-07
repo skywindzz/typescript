@@ -85185,6 +85185,8 @@ function () {
     });
   }
   /* bad implementaion
+  it's bad because you are just repating yourself, with interface mappable you can instead make addMarker function universal as long as the argument fits into the addMarker function
+  
   addUserMarker(user: User): void {
     new google.maps.Marker({
       map: this.googleMap,
@@ -85278,7 +85280,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49777" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49786" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
